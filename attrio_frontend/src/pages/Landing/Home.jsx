@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Home.css';
+import Header from './Header';
 
 import EntryLoading from '../../assets/Brand/Entry_Loading.gif';
-import LogoBlack from '../../assets/Brand/Logo_Black-removebg-preview.png';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
-  const [activeTestimonial, setActiveTestimonial] = useState(0);
-  const [liveFollowers, setLiveFollowers] = useState(12458);
-  const [notifications, setNotifications] = useState([]);
-  const [activeFaq, setActiveFaq] = useState(null);
+  const [liveCount, setLiveCount] = useState(12847);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
 
+  // Entry loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -22,533 +22,680 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    if (showContent) {
-      const interval = setInterval(() => {
-        setLiveFollowers(prev => prev + Math.floor(Math.random() * 3) + 1);
-      }, 3000);
-      return () => clearInterval(interval);
-    }
+    if (!showContent) return;
+    const interval = setInterval(() => {
+      setLiveCount(prev => prev + Math.floor(Math.random() * 3) + 1);
+    }, 4000);
+    return () => clearInterval(interval);
   }, [showContent]);
 
   useEffect(() => {
-    if (showContent) {
-      const notificationData = [
-        { type: 'follow', user: 'maria_fitness', time: 'ahora' },
-        { type: 'lead', user: 'carlos_rest', time: '2s' },
-        { type: 'follow', user: 'dental_clinic', time: '5s' },
-        { type: 'conversion', user: 'jorge_mkt', time: '8s' },
-        { type: 'follow', user: 'beauty_spa', time: '12s' },
-      ];
-      let index = 0;
-      const interval = setInterval(() => {
-        setNotifications(prev => {
-          const newNotif = { ...notificationData[index % notificationData.length], id: Date.now() };
-          return [newNotif, ...prev].slice(0, 4);
-        });
-        index++;
-      }, 2500);
-      return () => clearInterval(interval);
-    }
-  }, [showContent]);
-
-  useEffect(() => {
-    if (showContent) {
-      const interval = setInterval(() => {
-        setActiveTestimonial(prev => (prev + 1) % testimonials.length);
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [showContent]);
-
-  const testimonials = [
-    { name: "Carlos M.", role: "Restaurante La Esquina", text: "3,000 seguidores reales en 2 meses. Ahora tenemos lista de espera los fines de semana.", avatar: "C" },
-    { name: "María R.", role: "Clínica Dental Smile", text: "Cada semana llegan pacientes nuevos que nos encontraron en Instagram. ROI increíble.", avatar: "M" },
-    { name: "Jorge L.", role: "MediaLab Agency", text: "Manejamos 15 cuentas con Attrio. Nuestros clientes están felices con los resultados.", avatar: "J" },
-    { name: "Ana S.", role: "Boutique Elegance", text: "Las ventas por Instagram aumentaron 340% en el primer trimestre. Impresionante.", avatar: "A" },
-    { name: "Roberto P.", role: "Gimnasio FitLife", text: "Pasamos de 2,000 a 15,000 seguidores en 4 meses. Todos clientes potenciales.", avatar: "R" },
-  ];
-
-  const caseStudies = [
-    { industry: "Restaurantes", before: "1,200", after: "8,400", growth: "+600%", time: "3 meses", color: "pink" },
-    { industry: "Clínicas", before: "800", after: "5,200", growth: "+550%", time: "4 meses", color: "cyan" },
-    { industry: "Retail", before: "2,100", after: "12,800", growth: "+509%", time: "3 meses", color: "orange" },
-    { industry: "Servicios", before: "500", after: "4,100", growth: "+720%", time: "5 meses", color: "green" },
-  ];
+    const handleScroll = () => setScrollY(window.scrollY);
+    const handleMouse = (e) => setMousePos({ x: e.clientX, y: e.clientY });
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouse);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouse);
+    };
+  }, []);
 
   const features = [
-    { icon: "search", title: "Extracción Masiva", desc: "Miles de perfiles en minutos", color: "purple" },
-    { icon: "filter", title: "Filtros Avanzados", desc: "Segmenta tu audiencia ideal", color: "blue" },
-    { icon: "zap", title: "Automatización 24/7", desc: "Trabaja mientras duermes", color: "yellow" },
-    { icon: "shield", title: "100% Seguro", desc: "Comportamiento humano", color: "green" },
-    { icon: "download", title: "Exportar Datos", desc: "Compatible con Meta Ads", color: "orange" },
-    { icon: "chart", title: "Analytics", desc: "Métricas en tiempo real", color: "pink" },
-  ];
-
-  const faqs = [
-    { q: "¿Es seguro para mi cuenta de Instagram?", a: "Absolutamente. Attrio simula comportamiento humano con velocidades seguras. Usamos proxies rotativos y delays inteligentes. Tu cuenta nunca está en riesgo." },
-    { q: "¿Cuánto tiempo toma ver resultados?", a: "La mayoría de usuarios ven crecimiento en la primera semana. Resultados significativos (500+ seguidores nuevos) típicamente en 2-4 semanas." },
-    { q: "¿Puedo cancelar en cualquier momento?", a: "Sí. Sin contratos, sin compromisos, sin preguntas. Cancela con un click desde tu dashboard cuando quieras." },
-    { q: "¿Qué pasa si no veo resultados?", a: "Ofrecemos garantía de 30 días. Si no estás satisfecho con los resultados, te devolvemos el 100% de tu dinero." },
-    { q: "¿Necesito dar mi contraseña de Instagram?", a: "Sí, pero está encriptada con AES-256 (el mismo estándar que usan los bancos). Nunca la vemos ni almacenamos en texto plano." },
-    { q: "¿Funciona con cuentas de negocio?", a: "Sí. Funciona con cuentas personales, de creador y de negocio. De hecho, las cuentas de negocio obtienen mejores resultados." },
+    {
+      num: '01',
+      title: 'Extracción masiva',
+      desc: 'Miles de perfiles en minutos. Seguidores de cualquier cuenta, filtrados por ubicación e intereses.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      )
+    },
+    {
+      num: '02',
+      title: 'Filtros inteligentes',
+      desc: 'Solo prospectos de calidad. Elimina bots, cuentas inactivas y perfiles irrelevantes.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+      )
+    },
+    {
+      num: '03',
+      title: 'Automatización 24/7',
+      desc: 'Configura una vez, crece siempre. Attrio trabaja mientras duermes.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      )
+    },
+    {
+      num: '04',
+      title: 'Exportar a Meta Ads',
+      desc: 'Tu audiencia lista para campañas. Compatible con Facebook e Instagram Ads.',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      )
+    }
   ];
 
   const metrics = [
-    { value: "10K+", label: "Leads extraídos este mes" },
-    { value: "34%", label: "Tasa de conversión promedio" },
-    { value: "500+", label: "Negocios activos" },
-    { value: "24/7", label: "Automatización continua" },
-    { value: "2min", label: "Tiempo de setup" },
-    { value: "0", label: "Cuentas suspendidas" },
+    { value: '34%', label: 'Conversión', desc: 'tasa de follow-back' },
+    { value: '500+', label: 'Negocios', desc: 'activos en la plataforma' },
+    { value: '2.4M', label: 'Leads', desc: 'generados este mes' },
+    { value: '0', label: 'Suspensiones', desc: 'cuentas afectadas' }
   ];
 
-  const comparisons = [
-    { feature: "Extracción de seguidores", attrio: true, others: false },
-    { feature: "Filtros avanzados", attrio: true, others: false },
-    { feature: "Automatización 24/7", attrio: true, others: true },
-    { feature: "Comportamiento humano", attrio: true, others: false },
-    { feature: "Exportar a Meta Ads", attrio: true, others: false },
-    { feature: "Soporte en español", attrio: true, others: false },
-    { feature: "Garantía de 30 días", attrio: true, others: false },
+  const industries = [
+    { name: 'Restaurantes', growth: '+620%', time: '3 meses' },
+    { name: 'Clínicas', growth: '+480%', time: '4 meses' },
+    { name: 'E-commerce', growth: '+890%', time: '2 meses' },
+    { name: 'Servicios', growth: '+340%', time: '5 meses' },
+    { name: 'Fitness', growth: '+720%', time: '3 meses' },
+    { name: 'Agencias', growth: '+550%', time: '4 meses' }
+  ];
+
+  const testimonials = [
+    {
+      quote: '3,000 seguidores reales en 2 meses. Ahora tenemos lista de espera los fines de semana.',
+      author: 'Carlos M.',
+      role: 'Restaurante La Esquina',
+      metric: '+3,000'
+    },
+    {
+      quote: 'Cada semana llegan pacientes nuevos que nos encontraron en Instagram.',
+      author: 'María R.',
+      role: 'Clínica Dental Smile',
+      metric: '+5,200'
+    },
+    {
+      quote: 'Manejamos 15 cuentas con Attrio. Nuestros clientes están felices.',
+      author: 'Jorge L.',
+      role: 'MediaLab Agency',
+      metric: '15 cuentas'
+    }
+  ];
+
+  const steps = [
+    { num: '01', title: 'Conecta', desc: 'Tu cuenta de Instagram en 2 minutos' },
+    { num: '02', title: 'Selecciona', desc: 'Los competidores que quieres analizar' },
+    { num: '03', title: 'Extrae', desc: 'Miles de seguidores automáticamente' },
+    { num: '04', title: 'Crece', desc: 'Attrio trabaja 24/7 por ti' }
+  ];
+
+  const logos = ['Nike', 'Adidas', 'Zara', 'H&M', 'Mango', 'Pull&Bear', 'Bershka', 'Massimo'];
+
+  const timeline = [
+    { week: 'Semana 1', followers: '500+', event: 'Primeros seguidores reales' },
+    { week: 'Semana 2', followers: '1,200+', event: 'Engagement aumenta 40%' },
+    { week: 'Semana 4', followers: '3,000+', event: 'Primeras conversiones' },
+    { week: 'Mes 2', followers: '8,000+', event: 'ROI positivo confirmado' },
+    { week: 'Mes 3', followers: '15,000+', event: 'Escala automática' }
+  ];
+
+  const nightActivity = [
+    { time: '11:47 PM', action: 'Análisis de @competidor_fitness iniciado', type: 'analyze' },
+    { time: '12:23 AM', action: '+18 nuevos seguidores captados', type: 'followers' },
+    { time: '2:15 AM', action: 'Lead de alto valor detectado', type: 'lead' },
+    { time: '3:41 AM', action: '+32 seguidores mientras dormías', type: 'followers' },
+    { time: '5:08 AM', action: 'Engagement rate subió a 4.2%', type: 'stats' },
+    { time: '6:30 AM', action: 'Resumen: +67 seguidores esta noche', type: 'summary' }
   ];
 
   return (
-    <div className="landing-container">
+    
+    <div className="attrio">
+          <Header></Header>
+
+      {/* Entry Loading Screen */}
       <AnimatePresence>
         {isLoading && (
-          <motion.div className="entry-screen" initial={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div 
+            className="entry-screen"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <img src={EntryLoading} alt="Loading" className="entry-gif" />
           </motion.div>
         )}
       </AnimatePresence>
 
       {showContent && (
-        <div className="landing-content">
-          
+        <>
+          {/* Cursor follower */}
+          <div 
+            className="cursor-glow"
+            style={{ left: mousePos.x, top: mousePos.y }}
+          />
+
           {/* ==================== HERO ==================== */}
           <section className="hero">
-            <div className="hero-notifications">
-              <AnimatePresence>
-                {notifications.map((notif, i) => (
-                  <motion.div
-                    key={notif.id}
-                    className={`notif-card notif-${notif.type}`}
-                    initial={{ opacity: 0, x: 50, scale: 0.8 }}
-                    animate={{ opacity: 1 - (i * 0.2), x: 0, scale: 1 - (i * 0.05) }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    <div className="notif-icon">
-                      {notif.type === 'follow' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>}
-                      {notif.type === 'lead' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>}
-                      {notif.type === 'conversion' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>}
-                    </div>
-                    <div className="notif-content">
-                      <span className="notif-user">@{notif.user}</span>
-                      <span className="notif-action">
-                        {notif.type === 'follow' && 'Nuevo seguidor'}
-                        {notif.type === 'lead' && 'Lead calificado'}
-                        {notif.type === 'conversion' && 'Conversión'}
-                      </span>
-                    </div>
-                    <span className="notif-time">{notif.time}</span>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-
+            <div className="hero-bg" style={{ transform: `translateY(${scrollY * 0.4}px)` }} />
+            
             <div className="hero-content">
-              <motion.div className="hero-badge" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
-                <span className="badge-live"></span>
-                <span className="badge-count">{liveFollowers.toLocaleString()}</span>
-                leads generados hoy
+              <motion.div 
+                className="hero-badge"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <span className="badge-pulse" />
+                <span className="badge-text">{liveCount.toLocaleString()} leads generados hoy</span>
               </motion.div>
-
-              <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-                Los seguidores de
-                <br />
-                <span className="title-accent">tu competencia</span>
-                <br />
-                pueden ser tus clientes.
+              
+              <motion.h1 
+                className="hero-title"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <span className="title-line">Los seguidores de</span>
+                <span className="title-line title-accent">tu competencia</span>
+                <span className="title-line">pueden ser tus clientes.</span>
               </motion.h1>
-
-              <motion.p className="hero-subtitle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-                Extrae, filtra y convierte automáticamente.
+              
+              <motion.p 
+                className="hero-sub"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                Extrae, filtra y convierte automáticamente. Sin riesgos. Sin complicaciones.
               </motion.p>
-
-              <motion.div className="hero-cta" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+              
+              <motion.div 
+                className="hero-cta"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
                 <button className="btn-primary">
-                  Comenzar Gratis
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  <span>Comenzar gratis</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
                 </button>
-                <button className="btn-secondary">Ver Demo</button>
+                <button className="btn-outline">Ver demo</button>
               </motion.div>
 
-              <motion.div className="hero-trust" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+              <motion.div 
+                className="hero-trust"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
                 <div className="trust-avatars">
                   {[...Array(5)].map((_, i) => (
-                    <div key={i} className="trust-avatar" style={{ zIndex: 5 - i }}></div>
+                    <div key={i} className="trust-avatar" style={{ '--delay': i }} />
                   ))}
                 </div>
-                <div className="trust-text">
-                  <strong>+500 negocios</strong>
-                  <span>ya están creciendo</span>
-                </div>
+                <span>+500 negocios creciendo</span>
               </motion.div>
             </div>
 
-            <motion.div className="hero-visual" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}>
-              <div className="dashboard-card">
-                <div className="dash-header">
-                  <div className="dash-dots"><span></span><span></span><span></span></div>
-                  <img src={LogoBlack} alt="Attrio" className="dash-logo" />
+            {/* BENTO GRID */}
+            <motion.div 
+              className="hero-bento"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              <div className="bento-card bento-main">
+                <div className="bento-stat">
+                  <span className="bento-value">12,847</span>
+                  <span className="bento-label">Seguidores totales</span>
                 </div>
-                <div className="dash-body">
-                  <div className="dash-stat-row">
-                    <div className="dash-stat">
-                      <span className="ds-value">{liveFollowers.toLocaleString()}</span>
-                      <span className="ds-label">Seguidores totales</span>
-                      <span className="ds-trend up">+847 esta semana</span>
-                    </div>
-                    <div className="dash-stat accent">
-                      <span className="ds-value">34%</span>
-                      <span className="ds-label">Tasa de conversión</span>
-                      <span className="ds-trend up">+5.2%</span>
-                    </div>
-                  </div>
-                  <div className="dash-graph">
-                    <div className="graph-header">
-                      <span>Crecimiento semanal</span>
-                      <span className="graph-badge">En vivo</span>
-                    </div>
-                    <svg viewBox="0 0 300 80" className="graph-svg">
-                      <motion.path d="M 0 70 Q 30 65 50 55 T 100 45 T 150 35 T 200 25 T 250 15 T 300 5" fill="none" stroke="#8B5CF6" strokeWidth="3" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.8 }} />
-                    </svg>
-                  </div>
-                  <div className="dash-activity">
-                    <span className="activity-label">Actividad reciente</span>
-                    <div className="activity-bars">
-                      {[65, 80, 45, 90, 70, 85, 55].map((h, i) => (
-                        <motion.div key={i} className="activity-bar" initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ delay: 1 + (i * 0.1) }} style={{ height: `${h}%` }}></motion.div>
-                      ))}
-                    </div>
-                  </div>
+                <div className="bento-chart">
+                  <svg viewBox="0 0 200 60" className="chart-line">
+                    <path d="M 0 50 Q 25 45 50 35 T 100 25 T 150 15 T 200 5" fill="none" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+                    <defs>
+                      <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#6366f1"/>
+                        <stop offset="100%" stopColor="#a855f7"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+                <div className="bento-trend">
+                  <span className="trend-up">↑ 23%</span>
+                  <span>vs semana pasada</span>
+                </div>
+              </div>
+
+              <div className="bento-card bento-notif">
+                <div className="notif-icon green">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="8.5" cy="7" r="4"/>
+                    <line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>
+                  </svg>
+                </div>
+                <div className="notif-text">
+                  <strong>+847</strong>
+                  <span>nuevos esta semana</span>
+                </div>
+              </div>
+
+              <div className="bento-card bento-rate">
+                <span className="rate-value">34%</span>
+                <span className="rate-label">Follow-back rate</span>
+                <div className="rate-bar">
+                  <div className="rate-fill" />
+                </div>
+              </div>
+
+              <div className="bento-card bento-live">
+                <div className="live-dot" />
+                <span>Activo 24/7</span>
+              </div>
+
+              <div className="bento-card bento-activity">
+                <span className="activity-label">Actividad</span>
+                <div className="activity-bars">
+                  {[65, 80, 45, 90, 70, 85, 55].map((h, i) => (
+                    <div key={i} className="activity-bar" style={{ '--height': `${h}%`, '--delay': i }} />
+                  ))}
                 </div>
               </div>
             </motion.div>
-          </section>
 
-          {/* ==================== METRICS BAR ==================== */}
-          <section className="metrics-bar">
-            {metrics.map((m, i) => (
-              <motion.div key={i} className="metric-item" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                <span className="metric-value">{m.value}</span>
-                <span className="metric-label">{m.label}</span>
-              </motion.div>
-            ))}
-          </section>
-
-          {/* ==================== PROBLEM/SOLUTION ==================== */}
-          <section className="problem-section">
-            <div className="problem-grid">
-              <motion.div className="problem-card" initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <span className="problem-tag">El Problema</span>
-                <h3>Crecer en Instagram es difícil</h3>
-                <ul className="problem-list">
-                  <li>Publicar contenido no es suficiente</li>
-                  <li>Los hashtags ya no funcionan</li>
-                  <li>Comprar seguidores = bots inútiles</li>
-                  <li>Agencias cobran miles sin resultados</li>
-                </ul>
-              </motion.div>
-              <motion.div className="solution-card" initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <span className="solution-tag">La Solución</span>
-                <h3>Attrio cambia el juego</h3>
-                <ul className="solution-list">
-                  <li>Encuentra clientes que ya siguen a tu competencia</li>
-                  <li>Filtra solo prospectos de calidad</li>
-                  <li>Automatiza el crecimiento 24/7</li>
-                  <li>Paga una fracción del costo</li>
-                </ul>
-              </motion.div>
+            <div className="scroll-indicator">
+              <div className="scroll-line" />
             </div>
           </section>
 
-          {/* ==================== FEATURES GRID ==================== */}
-          <section className="features-section">
-            <motion.div className="section-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">Características</span>
-              <h2>Todo lo que necesitas para crecer</h2>
-            </motion.div>
+          {/* ==================== METRICS BANNER ==================== */}
+          <section className="metrics-banner">
+            <div className="metrics-track">
+              {[...metrics, ...metrics].map((m, i) => (
+                <div key={i} className="metric-item">
+                  <span className="metric-value">{m.value}</span>
+                  <div className="metric-info">
+                    <strong>{m.label}</strong>
+                    <span>{m.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ==================== PARALLAX TEXT ==================== */}
+          <section className="parallax-text">
+            <div className="parallax-line" style={{ transform: `translateX(${scrollY * -0.15}px)` }}>
+              <span>EXTRAE</span>
+              <span className="dot">●</span>
+              <span>FILTRA</span>
+              <span className="dot">●</span>
+              <span>CONVIERTE</span>
+              <span className="dot">●</span>
+              <span>EXTRAE</span>
+              <span className="dot">●</span>
+              <span>FILTRA</span>
+              <span className="dot">●</span>
+              <span>CONVIERTE</span>
+            </div>
+            <div className="parallax-line reverse" style={{ transform: `translateX(${scrollY * 0.15 - 200}px)` }}>
+              <span>CRECE</span>
+              <span className="dot">●</span>
+              <span>AUTOMATIZA</span>
+              <span className="dot">●</span>
+              <span>DOMINA</span>
+              <span className="dot">●</span>
+              <span>CRECE</span>
+              <span className="dot">●</span>
+              <span>AUTOMATIZA</span>
+              <span className="dot">●</span>
+              <span>DOMINA</span>
+            </div>
+          </section>
+
+          {/* ==================== FEATURES ==================== */}
+          <section className="features">
+            <div className="section-intro">
+              <span className="intro-tag">Características</span>
+              <h2>Todo lo que necesitas<br />para dominar Instagram</h2>
+            </div>
+
             <div className="features-grid">
               {features.map((f, i) => (
-                <motion.div key={i} className={`feature-card feature-${f.color}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -8, scale: 1.02 }}>
-                  <div className="feature-icon">
-                    {f.icon === 'search' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>}
-                    {f.icon === 'filter' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>}
-                    {f.icon === 'zap' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>}
-                    {f.icon === 'shield' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>}
-                    {f.icon === 'download' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>}
-                    {f.icon === 'chart' && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>}
+                <motion.div 
+                  key={i} 
+                  className="feature-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="feature-header">
+                    <span className="feature-num">{f.num}</span>
+                    <div className="feature-icon">{f.icon}</div>
                   </div>
-                  <h4>{f.title}</h4>
+                  <h3>{f.title}</h3>
                   <p>{f.desc}</p>
+                  <div className="feature-hover" />
                 </motion.div>
               ))}
             </div>
           </section>
 
-          {/* ==================== BENTO SHOWCASE ==================== */}
-          <section className="bento-section">
-            <div className="bento-grid">
-              <motion.div className="bento-card bento-xl bento-dark" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} whileHover={{ scale: 1.01 }}>
-                <div className="bento-content">
-                  <span className="bento-tag">Extracción Inteligente</span>
-                  <h2>Accede a miles de prospectos en minutos</h2>
-                  <p>Ingresa cualquier cuenta de Instagram y extrae todos sus seguidores. Filtra por ubicación, actividad, intereses.</p>
-                </div>
-                <div className="bento-visual-extract">
-                  <div className="extract-source">
-                    <div className="source-avatar"></div>
-                    <div className="source-info">
-                      <span>@competidor</span>
-                      <small>24.5K seguidores</small>
-                    </div>
-                  </div>
-                  <div className="extract-arrow">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                  </div>
-                  <div className="extract-results">
-                    {[...Array(9)].map((_, i) => (
-                      <motion.div key={i} className="result-avatar" animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, delay: i * 0.15, repeat: Infinity }}></motion.div>
-                    ))}
-                    <span className="result-count">+2,847</span>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div className="bento-card bento-md bento-green" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Resultados Reales</span>
-                <div className="stat-display">
-                  <motion.span className="stat-big" animate={{ scale: [1, 1.03, 1] }} transition={{ duration: 2, repeat: Infinity }}>34%</motion.span>
-                  <span className="stat-label">tasa de follow-back</span>
-                </div>
-                <div className="stat-comparison">vs 2-5% promedio del mercado</div>
-              </motion.div>
-
-              <motion.div className="bento-card bento-md bento-purple" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Automatización</span>
-                <h3>Activo 24/7</h3>
-                <p>Tú duermes, tu cuenta crece.</p>
-                <div className="auto-visual">
-                  <div className="auto-ring r1"></div>
-                  <div className="auto-ring r2"></div>
-                  <div className="auto-ring r3"></div>
-                  <motion.div className="auto-center" animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>ON</motion.div>
-                </div>
-              </motion.div>
-
-              <motion.div className="bento-card bento-sm bento-orange" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Filtros</span>
-                <div className="filter-chips">
-                  {['Activos', 'Con bio', '500+ seg.', 'Públicos'].map((f, i) => (
-                    <motion.span key={i} className="chip" animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2.5, delay: i * 0.2, repeat: Infinity }}>{f}</motion.span>
+          {/* ==================== SHOWCASE BLACK ==================== */}
+          <section className="showcase">
+            <div className="showcase-bg" style={{ transform: `translateY(${(scrollY - 1000) * 0.25}px)` }} />
+            <div className="showcase-content">
+              <div className="showcase-left">
+                <span className="showcase-tag">Cómo funciona</span>
+                <h2>De cero a miles de seguidores en 4 pasos</h2>
+                <p>Sin complicaciones técnicas. Sin riesgos para tu cuenta. Resultados desde la primera semana.</p>
+                
+                <div className="steps-list">
+                  {steps.map((s, i) => (
+                    <motion.div 
+                      key={i} 
+                      className="step-item"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      whileHover={{ x: 8 }}
+                    >
+                      <span className="step-num">{s.num}</span>
+                      <div className="step-content">
+                        <strong>{s.title}</strong>
+                        <span>{s.desc}</span>
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
-              </motion.div>
-
-              <motion.div className="bento-card bento-sm bento-cyan" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.25 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Seguro</span>
-                <motion.div className="shield-icon" animate={{ scale: [1, 1.08, 1] }} transition={{ duration: 2, repeat: Infinity }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                </motion.div>
-              </motion.div>
-
-              <motion.div className="bento-card bento-sm bento-yellow" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Exportar</span>
-                <motion.div className="export-icon" animate={{ y: [0, -5, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                </motion.div>
-                <span className="export-text">Meta Ads</span>
-              </motion.div>
-
-              <motion.div className="bento-card bento-sm bento-pink" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.35 }} whileHover={{ scale: 1.02 }}>
-                <span className="bento-tag">Analytics</span>
-                <div className="mini-stats">
-                  <div className="mini-stat">
-                    <motion.span animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1.5, repeat: Infinity }}>+23%</motion.span>
-                    <small>Growth</small>
-                  </div>
-                  <div className="mini-stat">
-                    <motion.span animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1.5, delay: 0.3, repeat: Infinity }}>4.2%</motion.span>
-                    <small>Engage</small>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* ==================== HOW IT WORKS ==================== */}
-          <section className="process-section">
-            <motion.div className="section-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">Proceso</span>
-              <h2>Comienza en 3 simples pasos</h2>
-            </motion.div>
-            <div className="process-flow">
-              <motion.div className="process-step" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <div className="step-number">1</div>
-                <h4>Conecta tu cuenta</h4>
-                <p>Setup seguro en menos de 2 minutos</p>
-              </motion.div>
-              <div className="process-line"><motion.div className="line-fill" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.3 }}></motion.div></div>
-              <motion.div className="process-step" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                <div className="step-number">2</div>
-                <h4>Selecciona competidores</h4>
-                <p>Extraemos sus seguidores automáticamente</p>
-              </motion.div>
-              <div className="process-line"><motion.div className="line-fill" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.5 }}></motion.div></div>
-              <motion.div className="process-step" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                <div className="step-number">3</div>
-                <h4>Mira crecer tu cuenta</h4>
-                <p>Attrio trabaja 24/7 por ti</p>
-              </motion.div>
-            </div>
-          </section>
-
-          {/* ==================== CASE STUDIES ==================== */}
-          <section className="cases-section">
-            <motion.div className="section-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">Resultados</span>
-              <h2>Casos de éxito por industria</h2>
-            </motion.div>
-            <div className="cases-grid">
-              {caseStudies.map((study, i) => (
-                <motion.div key={i} className={`case-card case-${study.color}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -8 }}>
-                  <span className="case-industry">{study.industry}</span>
-                  <div className="case-metrics">
-                    <div className="case-before"><small>Antes</small><span>{study.before}</span></div>
-                    <div className="case-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
-                    <div className="case-after"><small>Después</small><span>{study.after}</span></div>
-                  </div>
-                  <div className="case-growth">
-                    <span className="growth-value">{study.growth}</span>
-                    <span className="growth-time">en {study.time}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* ==================== COMPARISON TABLE ==================== */}
-          <section className="comparison-section">
-            <motion.div className="section-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">Comparación</span>
-              <h2>Attrio vs. Otras herramientas</h2>
-            </motion.div>
-            <motion.div className="comparison-table" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <div className="table-header">
-                <span>Característica</span>
-                <span className="attrio-col">Attrio</span>
-                <span>Otros</span>
               </div>
-              {comparisons.map((c, i) => (
-                <div key={i} className="table-row">
-                  <span>{c.feature}</span>
-                  <span className="attrio-col">{c.attrio ? <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}</span>
-                  <span>{c.others ? <svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg> : <svg viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}</span>
+
+              <div className="showcase-right">
+                <div className="showcase-visual">
+                  <div className="stream-container">
+                    <div className="stream stream-1" />
+                    <div className="stream stream-2" />
+                    <div className="stream stream-3" />
+                    <div className="stream stream-4" />
+                    <div className="stream stream-5" />
+                  </div>
+                  <div className="visual-core">
+                    <div className="core-inner">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                      </svg>
+                    </div>
+                    <div className="core-pulse pulse-1" />
+                    <div className="core-pulse pulse-2" />
+                    <div className="core-pulse pulse-3" />
+                  </div>
+                  <div className="data-particles">
+                    {[...Array(12)].map((_, i) => (
+                      <div key={i} className="particle" style={{ '--i': i }} />
+                    ))}
+                  </div>
                 </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ==================== NIGHT MODE SECTION ==================== */}
+          <section className="night-mode">
+            <div className="night-bg" style={{ transform: `translateY(${(scrollY - 1800) * 0.2}px)` }} />
+            <div className="night-content">
+              <div className="night-left">
+                <span className="night-tag">Automatización Nocturna</span>
+                <h2>Mientras tú duermes,<br /><span>Attrio trabaja.</span></h2>
+                <p>A las 3 AM, mientras tu competencia duerme, Attrio sigue captando clientes potenciales para tu negocio.</p>
+                
+                <div className="night-stats">
+                  <div className="night-stat">
+                    <span className="ns-value">+67</span>
+                    <span className="ns-label">seguidores promedio por noche</span>
+                  </div>
+                  <div className="night-stat">
+                    <span className="ns-value">8hrs</span>
+                    <span className="ns-label">de trabajo automático</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="night-right">
+                <div className="activity-feed">
+                  {nightActivity.map((item, i) => (
+                    <motion.div 
+                      key={i}
+                      className={`activity-item activity-${item.type}`}
+                      initial={{ opacity: 0, x: 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                    >
+                      <span className="activity-time">{item.time}</span>
+                      <span className="activity-action">{item.action}</span>
+                      <div className="activity-dot" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ==================== TIMELINE ==================== */}
+          <section className="timeline-section">
+            <div className="section-intro">
+              <span className="intro-tag">Progreso</span>
+              <h2>Tu crecimiento<br />semana a semana</h2>
+            </div>
+
+            <div className="timeline">
+              <div className="timeline-line" />
+              {timeline.map((t, i) => (
+                <motion.div 
+                  key={i} 
+                  className="timeline-item"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15 }}
+                >
+                  <div className="timeline-dot" />
+                  <div className="timeline-content">
+                    <span className="timeline-week">{t.week}</span>
+                    <span className="timeline-followers">{t.followers}</span>
+                    <span className="timeline-event">{t.event}</span>
+                  </div>
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
+          </section>
+
+          {/* ==================== INDUSTRIES ==================== */}
+          <section className="industries">
+            <div className="section-intro">
+              <span className="intro-tag">Resultados</span>
+              <h2>Crecimiento real<br />en cada industria</h2>
+            </div>
+
+            <div className="industries-grid">
+              {industries.map((ind, i) => (
+                <motion.div 
+                  key={i} 
+                  className="industry-card"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -10 }}
+                >
+                  <div className="industry-bar" />
+                  <span className="industry-name">{ind.name}</span>
+                  <span className="industry-growth">{ind.growth}</span>
+                  <span className="industry-time">en {ind.time}</span>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
+          {/* ==================== LOGOS MARQUEE ==================== */}
+          <section className="logos-section">
+            <p>Empresas que confían en nosotros</p>
+            <div className="logos-track">
+              {[...logos, ...logos].map((logo, i) => (
+                <div key={i} className="logo-item">{logo}</div>
+              ))}
+            </div>
           </section>
 
           {/* ==================== TESTIMONIALS ==================== */}
-          <section className="testimonials-section">
-            <motion.div className="section-header light" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">Testimonios</span>
-              <h2>Historias de éxito reales</h2>
-            </motion.div>
+          <section className="testimonials">
+            <div className="testimonials-header">
+              <span className="intro-tag">Testimonios</span>
+              <h2>Historias de éxito</h2>
+            </div>
+
             <div className="testimonials-grid">
               {testimonials.map((t, i) => (
-                <motion.div key={i} className={`testimonial-card ${i === activeTestimonial ? 'active' : ''}`} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -5 }}>
-                  <div className="testimonial-header">
-                    <div className="t-avatar">{t.avatar}</div>
-                    <div className="t-info">
-                      <strong>{t.name}</strong>
+                <motion.div 
+                  key={i} 
+                  className="testimonial-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  <div className="testimonial-metric">{t.metric}</div>
+                  <blockquote>"{t.quote}"</blockquote>
+                  <div className="testimonial-author">
+                    <div className="author-avatar">{t.author.charAt(0)}</div>
+                    <div className="author-info">
+                      <strong>{t.author}</strong>
                       <span>{t.role}</span>
                     </div>
                   </div>
-                  <p>"{t.text}"</p>
-                  <div className="testimonial-stars">
-                    {[...Array(5)].map((_, j) => (
-                      <svg key={j} viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    ))}
-                  </div>
                 </motion.div>
               ))}
             </div>
           </section>
 
-          {/* ==================== FAQ ==================== */}
-          <section className="faq-section">
-            <motion.div className="section-header" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="section-tag">FAQ</span>
-              <h2>Preguntas frecuentes</h2>
-            </motion.div>
-            <div className="faq-list">
-              {faqs.map((faq, i) => (
-                <motion.div key={i} className={`faq-item ${activeFaq === i ? 'open' : ''}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} onClick={() => setActiveFaq(activeFaq === i ? null : i)}>
-                  <div className="faq-question">
-                    <span>{faq.q}</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points={activeFaq === i ? "18 15 12 9 6 15" : "6 9 12 15 18 9"}/></svg>
-                  </div>
-                  <AnimatePresence>
-                    {activeFaq === i && (
-                      <motion.div className="faq-answer" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
-                        <p>{faq.a}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              ))}
+          {/* ==================== COMPARISON BLACK ==================== */}
+          <section className="comparison">
+            <div className="comparison-bg" style={{ transform: `translateY(${(scrollY - 3500) * 0.2}px)` }} />
+            <div className="comparison-content">
+              <div className="comparison-text">
+                <span className="intro-tag light">¿Por qué Attrio?</span>
+                <h2>La única herramienta que realmente funciona</h2>
+                <p>Mientras otros prometen, nosotros entregamos resultados medibles.</p>
+              </div>
+
+              <div className="comparison-grid">
+                <div className="compare-col">
+                  <span className="compare-header others">Otras herramientas</span>
+                  <ul>
+                    <li><span className="x">✕</span> Seguidores falsos y bots</li>
+                    <li><span className="x">✕</span> Riesgo de suspensión</li>
+                    <li><span className="x">✕</span> Sin filtros de calidad</li>
+                    <li><span className="x">✕</span> Soporte inexistente</li>
+                  </ul>
+                </div>
+                <div className="compare-col attrio-col">
+                  <span className="compare-header attrio">Attrio</span>
+                  <ul>
+                    <li><span className="check">✓</span> Seguidores 100% reales</li>
+                    <li><span className="check">✓</span> Comportamiento humano</li>
+                    <li><span className="check">✓</span> Filtros avanzados</li>
+                    <li><span className="check">✓</span> Soporte 24/7 en español</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </section>
 
-          {/* ==================== GUARANTEE ==================== */}
-          <section className="guarantee-section">
-            <motion.div className="guarantee-card" initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-              <div className="guarantee-badge">Garantía 100%</div>
-              <h3>30 días de garantía de satisfacción</h3>
-              <p>Si no ves resultados en los primeros 30 días, te devolvemos tu dinero completo. Sin preguntas, sin complicaciones.</p>
-              <div className="guarantee-points">
-                <div className="g-point"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg><span>Sin contratos a largo plazo</span></div>
-                <div className="g-point"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg><span>Cancela cuando quieras</span></div>
-                <div className="g-point"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg><span>Soporte 24/7 en español</span></div>
-                <div className="g-point"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg><span>Reembolso sin preguntas</span></div>
+          {/* ==================== BIG NUMBER SECTION ==================== */}
+          <section className="big-number">
+            <motion.div 
+              className="bn-content"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+            >
+              <div className="bn-stat">
+                <span className="bn-value">2.4M</span>
+                <span className="bn-label">leads generados para nuestros clientes</span>
+              </div>
+              <div className="bn-sub">
+                <div className="bn-item">
+                  <span>500+</span>
+                  <small>negocios activos</small>
+                </div>
+                <div className="bn-divider" />
+                <div className="bn-item">
+                  <span>98%</span>
+                  <small>satisfacción</small>
+                </div>
+                <div className="bn-divider" />
+                <div className="bn-item">
+                  <span>0</span>
+                  <small>cuentas baneadas</small>
+                </div>
               </div>
             </motion.div>
           </section>
 
           {/* ==================== FINAL CTA ==================== */}
           <section className="final-cta">
-            <motion.div className="cta-content" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <motion.h2 animate={{ scale: [1, 1.02, 1] }} transition={{ duration: 3, repeat: Infinity }}>¿Listo para crecer?</motion.h2>
-              <p>Únete a más de 500 negocios que ya están creciendo con Attrio</p>
-              <div className="cta-buttons">
-                <button className="btn-cta">
-                  Comenzar Gratis
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-                <button className="btn-cta-secondary">Agendar Demo</button>
-              </div>
-              <div className="cta-features">
-                <span>7 días gratis</span>
-                <span>Sin tarjeta de crédito</span>
-                <span>Setup en 2 minutos</span>
-              </div>
-            </motion.div>
-          </section>
+            <div className="cta-bg" style={{ transform: `translateY(${(scrollY - 4500) * 0.15}px)` }} />
+            <div className="cta-content">
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                ¿Listo para crecer?
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+              >
+                Únete a más de 500 negocios que ya están dominando Instagram
+              </motion.p>
+              
+              <motion.button 
+                className="btn-cta"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                whileHover={{ scale: 1.05 }}
+              >
+                <span>Comenzar gratis ahora</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </motion.button>
 
-        </div>
+              <motion.div 
+                className="cta-features"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+              >
+                <span>✓ 7 días gratis</span>
+                <span>✓ Sin tarjeta de crédito</span>
+                <span>✓ Setup en 2 minutos</span>
+              </motion.div>
+            </div>
+          </section>
+        </>
       )}
     </div>
   );
