@@ -1,0 +1,718 @@
+/* ===================================
+   ATTRIO - PLAN PAGE
+   Pricing, billing, and subscriptions
+=================================== */
+
+.plan-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===================================
+   PAGE HEADER
+=================================== */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.header-text h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 0.25rem 0;
+}
+
+.header-text p {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+/* ===================================
+   CURRENT PLAN CARD
+=================================== */
+.current-plan-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.current-plan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gray-100);
+  margin-bottom: 1.5rem;
+}
+
+.current-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.current-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0.25rem 0 0.5rem 0;
+}
+
+.current-renewal {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  margin: 0;
+}
+
+.days-badge {
+  padding: 0.25rem 0.625rem;
+  background: #fef3c7;
+  color: #b45309;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 100px;
+}
+
+.current-plan-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btn-manage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: var(--gray-900);
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-manage:hover {
+  background: var(--black);
+}
+
+.btn-manage svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-cancel {
+  padding: 0.625rem 1rem;
+  background: transparent;
+  color: var(--gray-500);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  color: #dc2626;
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+/* Usage Section */
+.usage-section h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 1rem 0;
+}
+
+.usage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.usage-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.usage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.usage-label {
+  font-size: 0.8rem;
+  color: var(--gray-600);
+}
+
+.usage-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.usage-bar {
+  height: 8px;
+  background: var(--gray-100);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.usage-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.usage-percent {
+  font-size: 0.7rem;
+  color: var(--gray-500);
+}
+
+/* ===================================
+   BILLING TOGGLE
+=================================== */
+.billing-toggle-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.billing-toggle-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0;
+}
+
+.billing-switcher {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.billing-option {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.billing-option.selected {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.billing-discount {
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 20px;
+}
+
+/* ===================================
+   PLANS GRID
+=================================== */
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+/* ===================================
+   PLAN CARD
+=================================== */
+.plan-card {
+  position: relative;
+  background: var(--white);
+  border: 2px solid var(--gray-200);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.plan-card:hover {
+  border-color: var(--gray-300);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.plan-card.current {
+  border-color: #22c55e;
+  background: linear-gradient(to bottom, #f0fdf4 0%, var(--white) 100px);
+}
+
+.plan-card.popular {
+  border-color: var(--gray-900);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.popular-badge,
+.current-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.popular-badge {
+  background: var(--gray-900);
+  color: var(--white);
+}
+
+.current-badge {
+  background: #22c55e;
+  color: var(--white);
+}
+
+/* Plan Header */
+.plan-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.plan-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 0.375rem 0;
+}
+
+.plan-description {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Plan Pricing */
+.plan-pricing {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.price-currency {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  vertical-align: top;
+}
+
+.price-amount {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--gray-900);
+  line-height: 1;
+}
+
+.price-period {
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+.price-monthly {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--gray-400);
+  margin-top: 0.375rem;
+}
+
+.price-custom {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+/* Plan Features */
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  flex: 1;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--gray-50);
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-features li svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.plan-features li.included {
+  color: var(--gray-700);
+}
+
+.plan-features li.included svg {
+  color: #22c55e;
+}
+
+.plan-features li.not-included {
+  color: var(--gray-400);
+}
+
+.plan-features li.not-included svg {
+  color: var(--gray-300);
+}
+
+/* Plan Button */
+.plan-btn {
+  width: 100%;
+  padding: 0.875rem;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.plan-btn.btn-current {
+  background: var(--gray-100);
+  color: var(--gray-500);
+  border: 1px solid var(--gray-200);
+  cursor: default;
+}
+
+.plan-btn.btn-upgrade {
+  background: var(--gray-900);
+  color: var(--white);
+  border: none;
+}
+
+.plan-btn.btn-upgrade:hover {
+  background: var(--black);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.plan-btn.btn-downgrade {
+  background: transparent;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-300);
+}
+
+.plan-btn.btn-downgrade:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+.plan-btn.btn-contact {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: var(--white);
+  border: none;
+}
+
+.plan-btn.btn-contact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+/* ===================================
+   FAQ SECTION
+=================================== */
+.faq-section {
+  padding: 2rem 0;
+  border-top: 1px solid var(--gray-200);
+}
+
+.faq-section h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 1.5rem 0;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.faq-item {
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.faq-item h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0 0 0.5rem 0;
+}
+
+.faq-item p {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===================================
+   MODAL
+=================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-100);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--gray-200);
+  color: var(--gray-700);
+}
+
+.modal-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ecfdf5;
+  border-radius: 50%;
+}
+
+.modal-icon svg {
+  width: 32px;
+  height: 32px;
+  color: #22c55e;
+}
+
+.modal-content h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin: 0 0 0.5rem 0;
+}
+
+.modal-content > p {
+  font-size: 0.9rem;
+  color: var(--gray-600);
+  margin: 0 0 1.5rem 0;
+}
+
+.modal-summary {
+  background: var(--gray-50);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row span:first-child {
+  color: var(--gray-600);
+}
+
+.summary-row span:last-child {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.summary-row.total {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--gray-200);
+  border-bottom: none;
+}
+
+.summary-row.total span:last-child {
+  color: #22c55e;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.modal-actions .btn-secondary {
+  flex: 1;
+  padding: 0.875rem;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-actions .btn-secondary:hover {
+  background: var(--gray-200);
+}
+
+.modal-actions .btn-primary {
+  flex: 2;
+  padding: 0.875rem;
+  background: var(--gray-900);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-actions .btn-primary:hover {
+  background: var(--black);
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+@media (max-width: 1200px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .current-plan-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .current-plan-actions {
+    width: 100%;
+  }
+
+  .current-plan-actions button {
+    flex: 1;
+  }
+
+  .usage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .billing-toggle-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions .btn-secondary,
+  .modal-actions .btn-primary {
+    flex: none;
+  }
+}

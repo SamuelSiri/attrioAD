@@ -1,0 +1,744 @@
+/* ===================================
+   ATTRIO - LOGIN PAGE
+   Split layout: Form + Marketing
+   No scroll on desktop
+=================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+
+.login-page {
+  height: 100vh;
+  overflow: hidden;
+  background: var(--white);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.login-page h1, 
+.login-page h2, 
+.login-page h3 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* ===================================
+   MAIN LAYOUT - Fixed height
+=================================== */
+.login-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 72px);
+  margin-top: 72px;
+}
+
+/* ===================================
+   FORM SIDE (LEFT)
+=================================== */
+.login-form-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 3rem;
+  background: var(--white);
+  overflow-y: auto;
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Form Header */
+.login-form-header {
+  margin-bottom: 1.75rem;
+}
+
+.login-form-header h1 {
+  font-size: 2rem;
+  color: var(--gray-900);
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+.login-form-header p {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+}
+
+/* ===================================
+   SOCIAL LOGIN BUTTONS
+=================================== */
+.social-login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.social-btn:hover {
+  border-color: var(--gray-300);
+  background: var(--gray-50);
+  transform: translateY(-1px);
+}
+
+.social-btn:active {
+  transform: translateY(0);
+}
+
+.social-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.social-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Social button row */
+.social-btn-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-btn-row .social-btn {
+  flex: 1;
+  padding: 0.75rem;
+}
+
+.social-btn-row .social-btn span {
+  display: none;
+}
+
+/* Apple button dark */
+.social-apple {
+  background: var(--gray-900);
+  border-color: var(--gray-900);
+  color: var(--white);
+}
+
+.social-apple:hover {
+  background: var(--gray-800);
+  border-color: var(--gray-800);
+}
+
+/* ===================================
+   DIVIDER
+=================================== */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+.login-divider span {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+
+/* ===================================
+   FORM STYLES
+=================================== */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper svg {
+  position: absolute;
+  left: 0.875rem;
+  width: 18px;
+  height: 18px;
+  color: var(--gray-400);
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.75rem 0.875rem 0.75rem 2.75rem;
+  background: var(--gray-50);
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--gray-900);
+  transition: all 0.2s ease;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--gray-400);
+}
+
+.input-wrapper input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.input-wrapper:focus-within svg:first-child {
+  color: var(--accent);
+}
+
+/* Password toggle */
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: var(--gray-400);
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+  color: var(--gray-600);
+}
+
+.password-toggle svg {
+  position: static;
+  width: 18px;
+  height: 18px;
+}
+
+/* Error state */
+.form-group.error .input-wrapper input {
+  border-color: var(--red);
+}
+
+.form-group.error .input-wrapper svg:first-child {
+  color: var(--red);
+}
+
+.error-message {
+  font-size: 0.75rem;
+  color: var(--red);
+}
+
+/* ===================================
+   FORM OPTIONS
+=================================== */
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Custom checkbox */
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  user-select: none;
+}
+
+.checkbox-wrapper input {
+  display: none;
+}
+
+.checkmark {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.checkmark::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 8px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease;
+}
+
+.checkbox-wrapper input:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkbox-wrapper input:checked + .checkmark::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.forgot-link {
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: var(--accent-dark);
+}
+
+/* ===================================
+   SUBMIT BUTTON
+=================================== */
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  margin-top: 0.5rem;
+  background: var(--gray-900);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.submit-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: var(--accent);
+}
+
+.submit-btn:hover svg {
+  transform: translateX(3px);
+}
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.loader {
+  display: flex;
+  gap: 4px;
+}
+
+.loader span {
+  width: 6px;
+  height: 6px;
+  background: var(--white);
+  border-radius: 50%;
+  animation: loaderBounce 1.4s ease-in-out infinite both;
+}
+
+.loader span:nth-child(1) { animation-delay: -0.32s; }
+.loader span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes loaderBounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* ===================================
+   SIGNUP PROMPT
+=================================== */
+.signup-prompt {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+.signup-prompt a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.signup-prompt a:hover {
+  color: var(--accent-dark);
+}
+
+/* ===================================
+   MARKETING SIDE (RIGHT)
+   HIW-inspired with solid colors
+=================================== */
+.login-marketing-side {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--gray-50);
+  overflow: hidden;
+}
+
+/* Background gradient spots */
+.marketing-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-spot {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+
+.bg-spot-yellow {
+  top: -10%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: #FFE566;
+}
+
+.bg-spot-green {
+  bottom: 20%;
+  left: -15%;
+  width: 250px;
+  height: 250px;
+  background: #4ADE80;
+}
+
+.bg-spot-pink {
+  bottom: -10%;
+  right: 20%;
+  width: 200px;
+  height: 200px;
+  background: #F472B6;
+}
+
+/* Marketing content */
+.marketing-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Badge */
+.marketing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 1rem;
+  background: var(--gray-900);
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  background: #4ADE80;
+  border-radius: 50%;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.marketing-badge span:last-child {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--white);
+}
+
+/* Headline */
+.marketing-headline h2 {
+  font-size: 2rem;
+  color: var(--gray-900);
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FBBF24, #22C55E, #EC4899, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.marketing-headline p {
+  font-size: 0.95rem;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+/* Bento Grid */
+.marketing-bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.bento-card {
+  padding: 1.25rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+}
+
+.bento-yellow {
+  background: #FFE566;
+}
+
+.bento-yellow .bento-number,
+.bento-yellow .bento-label {
+  color: #92400E;
+}
+
+.bento-green {
+  background: #4ADE80;
+}
+
+.bento-green .bento-number,
+.bento-green .bento-label {
+  color: #14532D;
+}
+
+.bento-pink {
+  background: #F472B6;
+}
+
+.bento-pink .bento-number,
+.bento-pink .bento-label {
+  color: #831843;
+}
+
+.bento-blue {
+  background: #60A5FA;
+}
+
+.bento-blue .bento-number,
+.bento-blue .bento-label {
+  color: #1E3A8A;
+}
+
+.bento-number {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.bento-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  opacity: 0.85;
+}
+
+/* Testimonial */
+.marketing-testimonial {
+  padding: 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.marketing-testimonial > p {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--gray-700);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.author-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 50%;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-info strong {
+  font-size: 0.85rem;
+  color: var(--gray-900);
+}
+
+.author-info span {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+
+.testimonial-metric {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #22C55E;
+}
+
+/* ===================================
+   RESPONSIVE
+=================================== */
+@media (max-width: 1100px) {
+  .login-form-side {
+    padding: 2rem;
+  }
+  
+  .login-marketing-side {
+    padding: 1.5rem;
+  }
+  
+  .marketing-headline h2 {
+    font-size: 1.75rem;
+  }
+  
+  .bento-number {
+    font-size: 1.5rem;
+  }
+  
+  .marketing-bento {
+    gap: 0.5rem;
+  }
+  
+  .bento-card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-main {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100vh - 72px);
+  }
+  
+  .login-page {
+    height: auto;
+    overflow: auto;
+  }
+  
+  .login-marketing-side {
+    display: none;
+  }
+  
+  .login-form-side {
+    padding: 2rem 1.5rem;
+    min-height: calc(100vh - 72px);
+  }
+  
+  .login-form-container {
+    max-width: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form-side {
+    padding: 1.5rem 1rem;
+  }
+  
+  .login-form-header h1 {
+    font-size: 1.75rem;
+  }
+  
+  .social-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .form-options {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}

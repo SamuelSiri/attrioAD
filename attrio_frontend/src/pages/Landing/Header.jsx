@@ -33,14 +33,55 @@ const Header = () => {
   }, [mobileMenuOpen]);
 
   const navLinksLeft = [
-    { name: 'Cómo Funciona', href: '#how-it-works' },
-    { name: 'Precios', href: '#pricing' },
+    { name: 'Cómo Funciona', href: '/como-funciona', isRoute: true },
+    { name: 'Precios', href: '/pricing', isRoute: true },
   ];
 
   const navLinksRight = [
-    { name: 'Casos de Éxito', href: '#success' },
-    { name: 'Acerca de Attrio', href: '#about' },
+    { name: 'Acerca de Attrio', href: '/about', isRoute: true },
   ];
+
+  const renderNavLink = (link, i) => {
+    if (link.isRoute) {
+      return (
+        <Link key={i} to={link.href} className="nav-link">
+          {link.name}
+        </Link>
+      );
+    }
+    return (
+      <a key={i} href={link.href} className="nav-link">
+        {link.name}
+      </a>
+    );
+  };
+
+  const renderMobileNavLink = (link, i) => {
+    if (link.isRoute) {
+      return (
+        <Link 
+          key={i} 
+          to={link.href} 
+          className="mobile-nav-link"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{ animationDelay: `${i * 0.1}s` }}
+        >
+          {link.name}
+        </Link>
+      );
+    }
+    return (
+      <a 
+        key={i} 
+        href={link.href} 
+        className="mobile-nav-link"
+        onClick={() => setMobileMenuOpen(false)}
+        style={{ animationDelay: `${i * 0.1}s` }}
+      >
+        {link.name}
+      </a>
+    );
+  };
 
   return (
     <>
@@ -48,11 +89,7 @@ const Header = () => {
         <div className="header-inner">
           {/* Left Navigation */}
           <nav className="header-nav header-nav-left">
-            {navLinksLeft.map((link, i) => (
-              <a key={i} href={link.href} className="nav-link">
-                {link.name}
-              </a>
-            ))}
+            {navLinksLeft.map((link, i) => renderNavLink(link, i))}
           </nav>
 
           {/* Center Logo */}
@@ -67,11 +104,7 @@ const Header = () => {
           {/* Right Navigation + Actions */}
           <div className="header-right">
             <nav className="header-nav header-nav-right">
-              {navLinksRight.map((link, i) => (
-                <a key={i} href={link.href} className="nav-link">
-                  {link.name}
-                </a>
-              ))}
+              {navLinksRight.map((link, i) => renderNavLink(link, i))}
             </nav>
             <div className="header-actions">
               <Link to="/login" className="nav-link login-link">
@@ -100,17 +133,7 @@ const Header = () => {
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-menu-content">
           <nav className="mobile-nav">
-            {[...navLinksLeft, ...navLinksRight].map((link, i) => (
-              <a 
-                key={i} 
-                href={link.href} 
-                className="mobile-nav-link"
-                onClick={() => setMobileMenuOpen(false)}
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                {link.name}
-              </a>
-            ))}
+            {[...navLinksLeft, ...navLinksRight].map((link, i) => renderMobileNavLink(link, i))}
           </nav>
           
           <div className="mobile-actions">

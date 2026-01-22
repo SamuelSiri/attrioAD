@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Home.css';
 import Header from './Header';
-
+import Footer from './Footer';
 import EntryLoading from '../../assets/Brand/Entry_Loading.gif';
 
 const Home = () => {
@@ -697,7 +697,10 @@ const Home = () => {
           </section>
         </>
       )}
+      <Footer />
+
     </div>
+    
   );
 };
 
